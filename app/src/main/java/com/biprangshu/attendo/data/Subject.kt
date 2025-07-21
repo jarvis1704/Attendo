@@ -10,7 +10,6 @@ data class Subject(
     val subjectName: String,
     val classAttended: Int,
     val totalClasses: Int,
-    val requiredPercentage: Float
 ){
 
     val currentPercentage: Float

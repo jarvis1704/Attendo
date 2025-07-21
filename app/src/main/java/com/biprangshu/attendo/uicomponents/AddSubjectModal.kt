@@ -40,13 +40,14 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import com.biprangshu.attendo.data.Subject
 import com.biprangshu.attendo.utils.showSubjectAddModal
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun AddSubjectModal(
     modifier: Modifier = Modifier,
-    onAddSubject: (String, String, Int, Int) -> Unit = { _, _, _, _ -> }
+    onAddSubject: (Subject)-> Unit
 ) {
     var subject by remember { mutableStateOf("") }
     var subjectCode by remember { mutableStateOf("") }
@@ -286,7 +287,14 @@ fun AddSubjectModal(
 
                     Button(
                         onClick = {
-                            onAddSubject(subject, subjectCode, classAttended, totalClass)
+                            onAddSubject(
+                                Subject(
+                                    subjectCode = subjectCode,
+                                    subjectName = subject,
+                                    classAttended = classAttended,
+                                    totalClasses = totalClass,
+                                )
+                            )
                             subject = ""
                             subjectCode = ""
                             classAttended = 0
