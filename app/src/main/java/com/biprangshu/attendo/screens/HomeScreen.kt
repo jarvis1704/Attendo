@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.biprangshu.attendo.Material3ExpressiveTest
 import com.biprangshu.attendo.uicomponents.StatusCard
+import com.biprangshu.attendo.uicomponents.SubjectCard
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -62,6 +63,20 @@ fun HomeScreen(modifier: Modifier = Modifier) {
                     date = SimpleDateFormat("EEEE, dd MMMM", Locale.getDefault()).format(Date())
                 )
             }
+            SubjectCard(
+                modifier = Modifier.padding(16.dp),
+                subject = "Physics",
+                classAttended = 25,
+                classTotal = 30,
+                requiredPercentage = 75f
+            )
+            SubjectCard(
+                modifier = Modifier.padding(16.dp),
+                subject = "Chemistry",
+                classAttended = 22,
+                classTotal = 30,
+                requiredPercentage = 75f
+            )
         }
 
     }

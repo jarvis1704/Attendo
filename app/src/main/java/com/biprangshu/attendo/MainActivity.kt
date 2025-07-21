@@ -80,7 +80,14 @@ class MainActivity : ComponentActivity() {
                             )
                         }
                     },
-                    floatingActionButton = { Fab() }
+                    floatingActionButton = {
+                        val navBackStackEntry by navController.currentBackStackEntryAsState()
+                        val currentDestination = navBackStackEntry?.destination
+
+                        if(currentDestination?.route == NavScreenObject.HOMESCREEN){
+                            Fab()
+                        }
+                    }
                 ) { innerPadding ->
                     Navigation(
                         navController = navController
