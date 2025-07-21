@@ -64,12 +64,12 @@ dependencies {
     implementation("androidx.compose.material3:material3:1.4.0-alpha18")
 
     //Dagger Hilt
-    implementation("com.google.dagger:hilt-android:2.51")
-    kapt("com.google.dagger:hilt-compiler:2.51")
+    implementation("com.google.dagger:hilt-android:2.57")
+    kapt("com.google.dagger:hilt-compiler:2.57")
     implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
 
     //Kotlin Serialization
-        implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.3")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.3")
 
     //Kotlin Parcelize
     implementation("org.jetbrains.kotlin:kotlin-parcelize-runtime:2.0.21")
