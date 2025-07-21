@@ -21,6 +21,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.rememberNavController
+import com.biprangshu.attendo.navigation.Navigation
 import com.biprangshu.attendo.screens.HomeScreen
 import com.biprangshu.attendo.ui.theme.AttendoTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -33,8 +35,12 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             AttendoTheme {
+
+                val navController  = rememberNavController()
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    HomeScreen()
+                    Navigation(
+                        navController = navController
+                    )
                 }
             }
         }
