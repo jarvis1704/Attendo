@@ -34,10 +34,18 @@ fun Navigation(
             selectedScreen = NavScreenObject.HOMESCREEN
             HomeScreen(
                 subjects = subjectList,
-                onSubjectAdd = {
-                    subject ->
+                onSubjectAdd = { subject ->
                     mainViewModel.insertSubject(subject)
-                }
+                },
+                onClassPresent = {
+                    subject ->
+                    mainViewModel.markClassPresent(subject)
+                },
+                onClassAbsent = {
+                    subject ->
+                    mainViewModel.markClassAbsent(subject)
+                },
+
             )
         }
 

@@ -40,4 +40,24 @@ class MainViewModel @Inject constructor(
         return repository.getSubjectById(subjectCode)
     }
 
+    fun markClassPresent(subject: Subject){
+        viewModelScope.launch {
+            val updatedSubject = subject.copy(
+                classAttended = subject.classAttended + 1,
+                totalClasses = subject.totalClasses + 1
+            )
+            repository.updateSubject(updatedSubject)
+        }
+    }
+
+    fun markClassAbsent(subject: Subject){
+        viewModelScope.launch {
+            val updatedSubject = subject.copy(
+                totalClasses = subject.totalClasses + 1
+            )
+            repository.updateSubject(updatedSubject)
+        }
+    }
+
+
 }
