@@ -18,13 +18,18 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.biprangshu.attendo.navigation.NavScreenObject
 import com.biprangshu.attendo.navigation.Navigation
 import com.biprangshu.attendo.screens.HomeScreen
 import com.biprangshu.attendo.ui.theme.AttendoTheme
+import com.biprangshu.attendo.uicomponents.BottomBar
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -37,7 +42,44 @@ class MainActivity : ComponentActivity() {
             AttendoTheme {
 
                 val navController  = rememberNavController()
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+
+                Scaffold(
+                    modifier = Modifier.fillMaxSize(),
+                    bottomBar = {
+                        //for bottombar navigation
+                        val navBackStackEntry by navController.currentBackStackEntryAsState()
+                        val currentDestination = navBackStackEntry?.destination
+
+
+                        val bottomBarVisibleRoutes = listOf(
+                            NavScreenObject.HOMESCREEN,
+                            NavScreenObject.SETTINGSSCREEN
+                        )
+
+                        if(currentDestination?.route in bottomBarVisibleRoutes){
+                            BottomBar(
+                                onHomeClick = {
+                                    navController.navigate(NavScreenObject.HOMESCREEN) {
+                                        popUpTo(navController.graph.findStartDestination().id) {
+                                            saveState = true
+                                        }
+                                        launchSingleTop = true
+                                        restoreState = true
+                                    }
+                                },
+                                onSettingsClick = {
+                                    navController.navigate(NavScreenObject.SETTINGSSCREEN) {
+                                        popUpTo(navController.graph.findStartDestination().id) {
+                                            saveState = true
+                                        }
+                                        launchSingleTop = true
+                                        restoreState = true
+                                    }
+                                }
+                            )
+                        }
+                    }
+                ) { innerPadding ->
                     Navigation(
                         navController = navController
                     )
