@@ -21,6 +21,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.biprangshu.attendo.Material3ExpressiveTest
+import com.biprangshu.attendo.uicomponents.AddSubjectModal
 import com.biprangshu.attendo.uicomponents.StatusCard
 import com.biprangshu.attendo.uicomponents.SubjectCard
 import java.text.SimpleDateFormat
@@ -78,6 +79,6 @@ fun HomeScreen(modifier: Modifier = Modifier) {
                 requiredPercentage = 75f
             )
         }
-
+        AddSubjectModal()
     }
 }
