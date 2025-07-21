@@ -30,6 +30,7 @@ import com.biprangshu.attendo.navigation.Navigation
 import com.biprangshu.attendo.screens.HomeScreen
 import com.biprangshu.attendo.ui.theme.AttendoTheme
 import com.biprangshu.attendo.uicomponents.BottomBar
+import com.biprangshu.attendo.uicomponents.Fab
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -78,7 +79,8 @@ class MainActivity : ComponentActivity() {
                                 }
                             )
                         }
-                    }
+                    },
+                    floatingActionButton = { Fab() }
                 ) { innerPadding ->
                     Navigation(
                         navController = navController

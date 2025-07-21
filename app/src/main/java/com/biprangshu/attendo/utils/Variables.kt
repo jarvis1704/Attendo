@@ -5,3 +5,4 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 
 var selectedScreen by mutableStateOf("")
+var showSubjectAddModal by mutableStateOf(false)
