@@ -17,6 +17,7 @@ object DatabaseModule{
 
 
     @Provides
+    @Singleton
     fun provideAttendoDatabase(@ApplicationContext context: Context): AttendoDatabase{
         return Room.databaseBuilder(
             context,
