@@ -8,6 +8,8 @@ import com.biprangshu.attendo.data.Subject
 var selectedScreen by mutableStateOf("")
 var showSubjectAddModal by mutableStateOf(false)
 var showSubjectDetailModal by mutableStateOf(false)
+var showFirstOpenAlert by mutableStateOf(false)
+var requiredPercentage by mutableStateOf(0f)
 
 var selectedSubject by mutableStateOf<Subject?>(null)
 var selectedSubjectForEdit by mutableStateOf<Subject?>(null)

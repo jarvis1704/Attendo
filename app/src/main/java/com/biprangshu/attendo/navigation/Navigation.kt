@@ -12,6 +12,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.biprangshu.attendo.data.Subject
+import com.biprangshu.attendo.repository.UserPreferencesRepository
 import com.biprangshu.attendo.screens.HomeScreen
 import com.biprangshu.attendo.screens.SettingsScreen
 import com.biprangshu.attendo.utils.selectedScreen

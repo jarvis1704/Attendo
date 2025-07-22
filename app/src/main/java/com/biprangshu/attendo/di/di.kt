@@ -32,5 +32,4 @@ object DatabaseModule{
     fun provideSubjectDao(database: AttendoDatabase): SubjectDao{
         return database.subjectDao()
     }
-
 }

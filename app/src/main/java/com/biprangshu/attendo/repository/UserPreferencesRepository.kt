@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.floatPreferencesKey
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
@@ -27,7 +28,7 @@ class UserPreferencesRepository @Inject constructor(
     companion object{
 
         private val IS_FIRST_APP_OPEN = booleanPreferencesKey("first_app_open")
-        private val REQUIRED_PERCENTAGE = intPreferencesKey("required_percentage")
+        private val REQUIRED_PERCENTAGE = floatPreferencesKey("required_percentage")
 
     }
 
@@ -35,9 +36,9 @@ class UserPreferencesRepository @Inject constructor(
         preferences[IS_FIRST_APP_OPEN] ?: true
     }
 
-    val requiredPercentage: Flow<Int> = dataStore.data.map {
+    val requiredPercentage: Flow<Float> = dataStore.data.map {
         preferences ->
-        preferences[REQUIRED_PERCENTAGE] ?: 75
+        preferences[REQUIRED_PERCENTAGE] ?: 75f
     }
 
     suspend fun firstAppOpen(isFirstAppOpen: Boolean){
@@ -46,7 +47,7 @@ class UserPreferencesRepository @Inject constructor(
         }
     }
 
-    suspend fun changeRequiredPercentage(requiredPercentage: Int){
+    suspend fun changeRequiredPercentage(requiredPercentage: Float){
         dataStore.edit {
             preferences ->
             preferences[REQUIRED_PERCENTAGE] = requiredPercentage

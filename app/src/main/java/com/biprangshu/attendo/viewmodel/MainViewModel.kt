@@ -5,16 +5,26 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.biprangshu.attendo.data.Subject
 import com.biprangshu.attendo.repository.DatabaseRepository
+import com.biprangshu.attendo.repository.UserPreferencesRepository
+import com.biprangshu.attendo.utils.requiredPercentage
+import com.biprangshu.attendo.utils.showFirstOpenAlert
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
     private val repository: DatabaseRepository,
+    private val userPreferencesRepository: UserPreferencesRepository,
     application: Application
 ): AndroidViewModel(application) {
+
+    init {
+        showFirstDialog()
+        updateRequiredPercentage()
+    }
 
     val allSubjects: Flow<List<Subject>> = repository.allSubjects
 
@@ -59,5 +69,32 @@ class MainViewModel @Inject constructor(
         }
     }
 
+    fun showFirstDialog(){
+        viewModelScope.launch {
+            showFirstOpenAlert = if(userPreferencesRepository.isFirstAppOpen.first()){
+                true
+            }else{
+                false
+            }
+        }
+    }
+
+    fun updateRequiredPercentage(percentage: Float){
+        viewModelScope.launch {
+            userPreferencesRepository.changeRequiredPercentage(percentage)
+        }
+    }
+
+    fun updateFirstAppOpen(appOpen: Boolean){
+        viewModelScope.launch {
+            userPreferencesRepository.firstAppOpen(appOpen)
+        }
+    }
+
+    fun updateRequiredPercentage(){
+        viewModelScope.launch {
+            requiredPercentage= userPreferencesRepository.requiredPercentage.first()
+        }
+    }
 
 }

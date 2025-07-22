@@ -40,12 +40,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.biprangshu.attendo.Material3ExpressiveTest
 import com.biprangshu.attendo.data.Subject
+import com.biprangshu.attendo.repository.UserPreferencesRepository
 import com.biprangshu.attendo.uicomponents.AddSubjectModal
 import com.biprangshu.attendo.uicomponents.EditSubjectModal
 import com.biprangshu.attendo.uicomponents.ShowSubjectDetailModal
 import com.biprangshu.attendo.uicomponents.StatusCard
 import com.biprangshu.attendo.uicomponents.SubjectCard
 import com.biprangshu.attendo.utils.editSubjectDetail
+import com.biprangshu.attendo.utils.requiredPercentage
 import com.biprangshu.attendo.utils.selectedSubject
 import com.biprangshu.attendo.utils.selectedSubjectForEdit
 import com.biprangshu.attendo.utils.showSubjectDetail
@@ -96,7 +98,7 @@ fun HomeScreen(
 
             Row(modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp)) {
                 StatusCard(
-                    minAttendance = "75%",
+                    minAttendance = "${requiredPercentage.toInt()}%",
                     totalAttendance = "${overallAttendance.toInt()}%",
                     date = SimpleDateFormat("EEEE, dd MMMM", Locale.getDefault()).format(Date())
                 )
@@ -177,7 +179,7 @@ fun HomeScreen(
                             subject = subject.subjectName,
                             classAttended = subject.classAttended,
                             classTotal = subject.totalClasses,
-                            requiredPercentage = 75f,
+                            requiredPercentage = requiredPercentage,
                             onClick = {
                                 showSubjectDetail(
                                     subject = subject

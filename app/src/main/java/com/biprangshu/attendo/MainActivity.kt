@@ -22,6 +22,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
@@ -31,6 +32,8 @@ import com.biprangshu.attendo.screens.HomeScreen
 import com.biprangshu.attendo.ui.theme.AttendoTheme
 import com.biprangshu.attendo.uicomponents.BottomBar
 import com.biprangshu.attendo.uicomponents.Fab
+import com.biprangshu.attendo.uicomponents.FirstAlertDialog
+import com.biprangshu.attendo.viewmodel.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -43,6 +46,7 @@ class MainActivity : ComponentActivity() {
             AttendoTheme {
 
                 val navController  = rememberNavController()
+                val mainViewModel: MainViewModel = hiltViewModel()
 
                 Scaffold(
                     modifier = Modifier.fillMaxSize(),
@@ -91,6 +95,16 @@ class MainActivity : ComponentActivity() {
                 ) { innerPadding ->
                     Navigation(
                         navController = navController
+                    )
+                    FirstAlertDialog(
+                        onSaveRequiredPercentage = {
+                            percentage->
+                            mainViewModel.updateRequiredPercentage(percentage)
+                        },
+                        changeFirstAppOpen = {
+                            appOpen->
+                            mainViewModel.updateFirstAppOpen(appOpen)
+                        }
                     )
                 }
             }
