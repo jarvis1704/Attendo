@@ -50,6 +50,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.biprangshu.attendo.data.Subject
+import com.biprangshu.attendo.utils.editSubjectDetail
 import com.biprangshu.attendo.utils.selectedSubject
 import com.biprangshu.attendo.utils.showSubjectAddModal
 import com.biprangshu.attendo.utils.showSubjectDetailModal
@@ -60,7 +61,7 @@ import kotlin.math.ceil
 fun ShowSubjectDetailModal(
     modifier: Modifier = Modifier,
     subject: Subject,
-    deleteSubject: (Subject)-> Unit
+    deleteSubject: (Subject)-> Unit,
 ) {
     val density = LocalDensity.current
     val requiredPercentage = 75f
@@ -337,7 +338,10 @@ fun ShowSubjectDetailModal(
 
                     Button(
                         onClick = {
-                            //todo: add edit functionality
+                            showSubjectDetailModal=false
+                            editSubjectDetail(
+                                subject = subject
+                            )
                         },
                         modifier = Modifier.weight(1f),
                         shape = MaterialTheme.shapes.extraLarge,

@@ -41,10 +41,13 @@ import androidx.compose.ui.unit.sp
 import com.biprangshu.attendo.Material3ExpressiveTest
 import com.biprangshu.attendo.data.Subject
 import com.biprangshu.attendo.uicomponents.AddSubjectModal
+import com.biprangshu.attendo.uicomponents.EditSubjectModal
 import com.biprangshu.attendo.uicomponents.ShowSubjectDetailModal
 import com.biprangshu.attendo.uicomponents.StatusCard
 import com.biprangshu.attendo.uicomponents.SubjectCard
+import com.biprangshu.attendo.utils.editSubjectDetail
 import com.biprangshu.attendo.utils.selectedSubject
+import com.biprangshu.attendo.utils.selectedSubjectForEdit
 import com.biprangshu.attendo.utils.showSubjectDetail
 import kotlinx.coroutines.delay
 import java.text.SimpleDateFormat
@@ -60,7 +63,8 @@ fun HomeScreen(
     onSubjectAdd: (Subject) -> Unit,
     onClassPresent: (Subject) -> Unit,
     onClassAbsent: (Subject) -> Unit,
-    deleteSubject: (Subject) -> Unit
+    deleteSubject: (Subject) -> Unit,
+    editSubject: (Subject) -> Unit
 ) {
     val overallAttendance by remember(subjects) {
         derivedStateOf {
@@ -190,6 +194,13 @@ fun HomeScreen(
                 ShowSubjectDetailModal(
                     subject = it,
                     deleteSubject = deleteSubject
+                )
+            }
+
+            selectedSubjectForEdit?.let {
+                EditSubjectModal(
+                    subject = it,
+                    onUpdateSubject = editSubject
                 )
             }
         }

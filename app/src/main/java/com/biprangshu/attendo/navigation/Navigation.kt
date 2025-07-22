@@ -48,6 +48,10 @@ fun Navigation(
                 deleteSubject = {
                     subject ->
                     mainViewModel.deleteSubject(subject)
+                },
+                editSubject = {
+                    subject ->
+                    mainViewModel.updateSubject(subject)
                 }
 
 

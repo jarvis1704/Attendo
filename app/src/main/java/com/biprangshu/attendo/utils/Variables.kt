@@ -10,8 +10,16 @@ var showSubjectAddModal by mutableStateOf(false)
 var showSubjectDetailModal by mutableStateOf(false)
 
 var selectedSubject by mutableStateOf<Subject?>(null)
+var selectedSubjectForEdit by mutableStateOf<Subject?>(null)
+
+var showEditSubjectModal by mutableStateOf(false)
 
 fun showSubjectDetail(subject: Subject) {
     selectedSubject = subject
     showSubjectDetailModal = true
+}
+
+fun editSubjectDetail(subject: Subject){
+    selectedSubjectForEdit= subject
+    showEditSubjectModal=true
 }
