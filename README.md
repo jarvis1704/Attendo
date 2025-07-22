@@ -13,21 +13,90 @@ Attendo is an Android application built with Kotlin that helps users manage and 
 
 ## Screenshots
 
-<!-- Upload screenshots of the app in the `screenshots/` directory and display them below. Example: -->
-<!--
-![Home Screen](screenshots/home.png)
-![Attendance Tracker](screenshots/tracker.png)
--->
+<table>
+  <tr>
+    <td align="center">
+      <img src="screenshots/home_screen.png" width="200" alt="Home Screen"/>
+      <br />
+      <sub><b>Home Screen</b></sub>
+      <br />
+      <sub>Main dashboard showing subjects and attendance overview</sub>
+    </td>
+    <td align="center">
+      <img src="screenshots/add_subject.png" width="200" alt="Add Subject"/>
+      <br />
+      <sub><b>Add Subject</b></sub>
+      <br />
+      <sub>Form to add new subjects with code and name</sub>
+    </td>
+    <td align="center">
+      <img src="screenshots/attendance_tracker.png" width="200" alt="Attendance Tracker"/>
+      <br />
+      <sub><b>Attendance Tracker</b></sub>
+      <br />
+      <sub>Track daily attendance with present/absent options</sub>
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <img src="screenshots/subject_details.png" width="200" alt="Subject Details"/>
+      <br />
+      <sub><b>Subject Details</b></sub>
+      <br />
+      <sub>Detailed view of individual subject attendance</sub>
+    </td>
+    <td align="center">
+      <img src="screenshots/statistics.png" width="200" alt="Statistics"/>
+      <br />
+      <sub><b>Statistics</b></sub>
+      <br />
+      <sub>Attendance statistics and percentage overview</sub>
+    </td>
+    <td align="center">
+      <img src="screenshots/settings.png" width="200" alt="Settings"/>
+      <br />
+      <sub><b>Settings</b></sub>
+      <br />
+      <sub>App preferences and attendance requirements</sub>
+    </td>
+  </tr>
+</table>
+
+### Additional Screenshots
+
+<table>
+  <tr>
+    <td align="center">
+      <img src="screenshots/onboarding.png" width="200" alt="Onboarding"/>
+      <br />
+      <sub><b>Onboarding</b></sub>
+      <br />
+      <sub>First-time user introduction and setup</sub>
+    </td>
+    <td align="center">
+      <img src="screenshots/edit_subject.png" width="200" alt="Edit Subject"/>
+      <br />
+      <sub><b>Edit Subject</b></sub>
+      <br />
+      <sub>Modify existing subject information</sub>
+    </td>
+    <td align="center">
+      <img src="screenshots/attendance_warning.png" width="200" alt="Attendance Warning"/>
+      <br />
+      <sub><b>Low Attendance Alert</b></sub>
+      <br />
+      <sub>Warning when attendance falls below threshold</sub>
+    </td>
+  </tr>
+</table>
 
 ## Getting Started
 
 ### Prerequisites
-
 - Android Studio (latest version recommended)
 - Android device or emulator running Android 5.0 (Lollipop) or later
 
 ### Installation
-
 1. Clone this repository:
     ```bash
     git clone https://github.com/jarvis1704/Attendo.git
