@@ -41,6 +41,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.biprangshu.attendo.data.Subject
+import com.biprangshu.attendo.utils.selectedSubjectForEdit
 import com.biprangshu.attendo.utils.showEditSubjectModal
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
@@ -269,6 +270,7 @@ fun EditSubjectModal(
                     TextButton(
                         onClick = {
                             showEditSubjectModal = false
+                            selectedSubjectForEdit=null
                         },
                         modifier = Modifier.weight(1f),
                         colors = ButtonDefaults.textButtonColors(
@@ -293,6 +295,7 @@ fun EditSubjectModal(
                                 )
                             )
                             showEditSubjectModal = false
+                            selectedSubjectForEdit=null
                         },
                         enabled = isFormValid,
                         modifier = Modifier.weight(1f),
