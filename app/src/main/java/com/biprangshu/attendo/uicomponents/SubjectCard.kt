@@ -41,6 +41,7 @@ import com.biprangshu.attendo.data.Subject
 import com.biprangshu.attendo.ui.theme.AttendoTheme
 import com.biprangshu.attendo.utils.showSubjectDetailModal
 import kotlin.math.ceil
+import kotlin.math.floor
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
@@ -70,7 +71,13 @@ fun SubjectCard(
     )
 
     val message = when {
-        currentPercentage >= requiredPercentage -> "You're on track!"
+
+        currentPercentage >= requiredPercentage -> {
+            val skippableClasses = floor((100 * classAttended - requiredPercentage * classTotal) / requiredPercentage).toInt()
+            if (skippableClasses > 1) "You can bunk the next $skippableClasses classes."
+            else if (skippableClasses == 1) "You can bunk the next $skippableClasses class."
+            else "On track! Don't bunk the next class."
+        }
         else -> {
             val needed = ceil((requiredPercentage * classTotal - 100 * classAttended) / (100 - requiredPercentage))
             if(needed > 0) "Attend the next ${needed.toInt()} classes" else "Attendance is low"
