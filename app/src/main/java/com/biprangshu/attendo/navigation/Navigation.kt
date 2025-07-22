@@ -45,6 +45,11 @@ fun Navigation(
                     subject ->
                     mainViewModel.markClassAbsent(subject)
                 },
+                deleteSubject = {
+                    subject ->
+                    mainViewModel.deleteSubject(subject)
+                }
+
 
             )
         }

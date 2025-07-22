@@ -3,6 +3,15 @@ package com.biprangshu.attendo.utils
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import com.biprangshu.attendo.data.Subject
 
 var selectedScreen by mutableStateOf("")
 var showSubjectAddModal by mutableStateOf(false)
+var showSubjectDetailModal by mutableStateOf(false)
+
+var selectedSubject by mutableStateOf<Subject?>(null)
+
+fun showSubjectDetail(subject: Subject) {
+    selectedSubject = subject
+    showSubjectDetailModal = true
+}

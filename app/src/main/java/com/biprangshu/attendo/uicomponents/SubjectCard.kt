@@ -4,6 +4,7 @@ import android.content.res.Configuration
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -36,7 +37,9 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.biprangshu.attendo.data.Subject
 import com.biprangshu.attendo.ui.theme.AttendoTheme
+import com.biprangshu.attendo.utils.showSubjectDetailModal
 import kotlin.math.ceil
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
@@ -46,7 +49,8 @@ fun SubjectCard(
     subject: String,
     classAttended: Int,
     classTotal: Int,
-    requiredPercentage: Float
+    requiredPercentage: Float,
+    onClick: ()-> Unit
 ) {
     val density = LocalDensity.current
 
@@ -85,7 +89,7 @@ fun SubjectCard(
     }
 
     Card(
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth().clickable{ onClick() },
         shape = MaterialTheme.shapes.extraLarge,
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
