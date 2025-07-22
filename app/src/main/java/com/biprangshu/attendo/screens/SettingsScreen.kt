@@ -33,7 +33,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
@@ -52,6 +54,7 @@ fun SettingsScreen(
     val percentageValue = percentageText.toIntOrNull()
     val isValid = percentageValue != null && percentageValue in 1..100
     val context = LocalContext.current
+    val hapticFeedback = LocalHapticFeedback.current
 
     Surface(modifier = modifier.fillMaxSize()) {
         Column(
@@ -135,6 +138,7 @@ fun SettingsScreen(
                                 percentageValue?.let { percentage ->
                                     onRequiredPercentageChange(percentage.toFloat())
                                 }
+                                hapticFeedback.performHapticFeedback(HapticFeedbackType.Confirm)
                                 Toast.makeText(context, "Required percentage successfully changed!", Toast.LENGTH_SHORT).show()
                             },
                             enabled = isValid,

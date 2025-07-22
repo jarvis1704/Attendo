@@ -9,14 +9,18 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.LargeFloatingActionButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.unit.dp
 import com.biprangshu.attendo.utils.showSubjectAddModal
 
 @Composable
 fun Fab(modifier: Modifier = Modifier) {
+    val hapticFeedback = LocalHapticFeedback.current
     LargeFloatingActionButton(
         onClick = {
             showSubjectAddModal = true
+            hapticFeedback.performHapticFeedback(HapticFeedbackType.ContextClick)
         },
         elevation = FloatingActionButtonDefaults.elevation(
             4.dp

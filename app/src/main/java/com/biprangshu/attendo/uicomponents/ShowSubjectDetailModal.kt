@@ -46,7 +46,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.biprangshu.attendo.data.Subject
@@ -81,6 +83,8 @@ fun ShowSubjectDetailModal(
         animationSpec = tween(durationMillis = 1200, delayMillis = 300),
         label = "progressAnimation"
     )
+
+    val hapticFeedback = LocalHapticFeedback.current
 
     LaunchedEffect(subject.currentPercentage) {
         progress = subject.currentPercentage / 100
@@ -322,6 +326,7 @@ fun ShowSubjectDetailModal(
                             deleteSubject(subject)
                             showSubjectDetailModal = false
                             selectedSubject=null
+                            hapticFeedback.performHapticFeedback(HapticFeedbackType.Reject)
                         },
                         modifier = Modifier.weight(1f),
                         colors = ButtonDefaults.textButtonColors(
@@ -342,6 +347,7 @@ fun ShowSubjectDetailModal(
                             editSubjectDetail(
                                 subject = subject
                             )
+                            hapticFeedback.performHapticFeedback(HapticFeedbackType.Confirm)
                         },
                         modifier = Modifier.weight(1f),
                         shape = MaterialTheme.shapes.extraLarge,

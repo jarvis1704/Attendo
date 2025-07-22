@@ -19,6 +19,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -31,6 +33,8 @@ fun BottomBar(
     onHomeClick: ()-> Unit,
     onSettingsClick: ()-> Unit
 ) {
+
+    val hapticFeedback = LocalHapticFeedback.current
 
     BottomAppBar(
         modifier = modifier,
@@ -47,7 +51,10 @@ fun BottomBar(
             ) {
                 NavigationBarItem(
                     selected = selectedScreen == NavScreenObject.HOMESCREEN,
-                    onClick = onHomeClick,
+                    onClick = {
+                        onHomeClick()
+                        hapticFeedback.performHapticFeedback(HapticFeedbackType.ContextClick)
+                    },
                     icon = {
                         Icon(
                             imageVector = if (selectedScreen == NavScreenObject.HOMESCREEN) {
@@ -80,7 +87,10 @@ fun BottomBar(
                 )
                 NavigationBarItem(
                     selected = selectedScreen == NavScreenObject.SETTINGSSCREEN,
-                    onClick = onSettingsClick,
+                    onClick = {
+                        onSettingsClick()
+                        hapticFeedback.performHapticFeedback(HapticFeedbackType.ContextClick)
+                    },
                     icon = {
                         Icon(
                             imageVector = if (selectedScreen == NavScreenObject.SETTINGSSCREEN) {

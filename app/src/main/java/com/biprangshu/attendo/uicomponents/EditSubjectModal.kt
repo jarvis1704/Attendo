@@ -37,6 +37,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
@@ -55,6 +57,7 @@ fun EditSubjectModal(
     var subjectCode by remember { mutableStateOf(subject.subjectCode) }
     var classAttended by remember { mutableIntStateOf(subject.classAttended) }
     var totalClass by remember { mutableIntStateOf(subject.totalClasses) }
+    val hapticFeedback = LocalHapticFeedback.current
 
     var animationProgress by remember { mutableFloatStateOf(0f) }
     val animatedAlpha by animateFloatAsState(
@@ -271,6 +274,7 @@ fun EditSubjectModal(
                         onClick = {
                             showEditSubjectModal = false
                             selectedSubjectForEdit=null
+                            hapticFeedback.performHapticFeedback(HapticFeedbackType.Reject)
                         },
                         modifier = Modifier.weight(1f),
                         colors = ButtonDefaults.textButtonColors(
@@ -296,6 +300,7 @@ fun EditSubjectModal(
                             )
                             showEditSubjectModal = false
                             selectedSubjectForEdit=null
+                            hapticFeedback.performHapticFeedback(HapticFeedbackType.Confirm)
                         },
                         enabled = isFormValid,
                         modifier = Modifier.weight(1f),

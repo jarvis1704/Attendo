@@ -35,6 +35,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -76,6 +78,8 @@ fun HomeScreen(
             if (totalClasses > 0) (totalAttended.toFloat() / totalClasses.toFloat()) * 100 else 0f
         }
     }
+
+    val hapticFeedback = LocalHapticFeedback.current
 
     Surface(modifier = modifier.fillMaxSize()) {
         Column(modifier = Modifier.fillMaxSize()) {
@@ -120,8 +124,10 @@ fun HomeScreen(
                             direction->
                             if (direction == SwipeToDismissBoxValue.EndToStart) {
                                 onClassPresent(subject)
+                                hapticFeedback.performHapticFeedback(HapticFeedbackType.Confirm)
                             } else if (direction == SwipeToDismissBoxValue.StartToEnd) {
                                 onClassAbsent(subject)
+                                hapticFeedback.performHapticFeedback(HapticFeedbackType.Reject)
                             }
                             false
                         },
@@ -184,6 +190,7 @@ fun HomeScreen(
                                 showSubjectDetail(
                                     subject = subject
                                 )
+                                hapticFeedback.performHapticFeedback(HapticFeedbackType.ContextClick)
                             }
                         )
                     }
