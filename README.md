@@ -39,7 +39,7 @@ Attendo is an Android application built with Kotlin that helps users manage and 
   </tr>
   <tr>
     <td align="center">
-      <img src="screenshots/subject_details.png" width="200" alt="Subject Details"/>
+      <img src="screenshots/subject_detail.png" width="200" alt="Subject Details"/>
       <br />
       <sub><b>Subject Details</b></sub>
       <br />
