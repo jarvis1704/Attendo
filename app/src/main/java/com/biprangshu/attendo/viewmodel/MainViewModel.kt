@@ -82,6 +82,7 @@ class MainViewModel @Inject constructor(
     fun updateRequiredPercentage(percentage: Float){
         viewModelScope.launch {
             userPreferencesRepository.changeRequiredPercentage(percentage)
+            updateRequiredPercentage()
         }
     }
 

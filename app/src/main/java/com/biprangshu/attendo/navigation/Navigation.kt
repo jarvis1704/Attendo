@@ -15,6 +15,7 @@ import com.biprangshu.attendo.data.Subject
 import com.biprangshu.attendo.repository.UserPreferencesRepository
 import com.biprangshu.attendo.screens.HomeScreen
 import com.biprangshu.attendo.screens.SettingsScreen
+import com.biprangshu.attendo.utils.requiredPercentage
 import com.biprangshu.attendo.utils.selectedScreen
 import com.biprangshu.attendo.viewmodel.MainViewModel
 
@@ -61,7 +62,15 @@ fun Navigation(
 
         composable(NavScreenObject.SETTINGSSCREEN) {
             selectedScreen = NavScreenObject.SETTINGSSCREEN
-            SettingsScreen()
+            SettingsScreen(
+                currentRequiredPercentage = requiredPercentage,
+                onRequiredPercentageChange = {
+                    percentage->
+                    mainViewModel.updateRequiredPercentage(
+                        percentage = percentage
+                    )
+                }
+            )
         }
     }
 
