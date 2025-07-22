@@ -46,13 +46,6 @@ Attendo is an Android application built with Kotlin that helps users manage and 
       <sub>Detailed view of individual subject attendance</sub>
     </td>
     <td align="center">
-      <img src="screenshots/statistics.png" width="200" alt="Statistics"/>
-      <br />
-      <sub><b>Statistics</b></sub>
-      <br />
-      <sub>Attendance statistics and percentage overview</sub>
-    </td>
-    <td align="center">
       <img src="screenshots/settings.png" width="200" alt="Settings"/>
       <br />
       <sub><b>Settings</b></sub>
@@ -66,13 +59,6 @@ Attendo is an Android application built with Kotlin that helps users manage and 
 
 <table>
   <tr>
-    <td align="center">
-      <img src="screenshots/onboarding.png" width="200" alt="Onboarding"/>
-      <br />
-      <sub><b>Onboarding</b></sub>
-      <br />
-      <sub>First-time user introduction and setup</sub>
-    </td>
     <td align="center">
       <img src="screenshots/edit_subject.png" width="200" alt="Edit Subject"/>
       <br />
