@@ -188,7 +188,9 @@ fun EditSubjectModal(
                             unfocusedBorderColor = MaterialTheme.colorScheme.outline.copy(alpha = 0.6f),
                             focusedLabelColor = MaterialTheme.colorScheme.primary
                         ),
-                        singleLine = true
+                        singleLine = true,
+                        enabled = false,
+                        readOnly = true
                     )
 
                     Row(
