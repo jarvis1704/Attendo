@@ -55,8 +55,12 @@ fun EditSubjectModal(
 ) {
     var subjectName by remember { mutableStateOf(subject.subjectName) }
     var subjectCode by remember { mutableStateOf(subject.subjectCode) }
-    var classAttended by remember { mutableIntStateOf(subject.classAttended) }
-    var totalClass by remember { mutableIntStateOf(subject.totalClasses) }
+    var classAttended by remember { mutableStateOf(subject.classAttended.toString()) }
+    var totalClass by remember { mutableStateOf(subject.totalClasses.toString()) }
+
+    val totalClassesInt = totalClass.toIntOrNull()
+    val classAttendedInt = classAttended.toIntOrNull()
+
     val hapticFeedback = LocalHapticFeedback.current
 
     var animationProgress by remember { mutableFloatStateOf(0f) }
@@ -77,9 +81,9 @@ fun EditSubjectModal(
 
     val isFormValid = subjectName.isNotBlank() &&
             subjectCode.isNotBlank() &&
-            totalClass > 0 &&
-            classAttended >= 0 &&
-            classAttended <= totalClass
+            totalClassesInt != null && totalClassesInt > 0 &&
+            classAttendedInt != null && classAttendedInt >= 0 &&
+            classAttendedInt <= totalClassesInt
 
     if (showEditSubjectModal) {
         ModalBottomSheet(
@@ -192,9 +196,9 @@ fun EditSubjectModal(
                         modifier = Modifier.fillMaxWidth()
                     ) {
                         OutlinedTextField(
-                            value = classAttended.toString(),
+                            value = classAttended,
                             onValueChange = {
-                                classAttended = it.toIntOrNull() ?: 0
+                                classAttended = it.ifEmpty { "" }
                             },
                             label = {
                                 Text(
@@ -204,7 +208,7 @@ fun EditSubjectModal(
                             },
                             placeholder = {
                                 Text(
-                                    "0",
+                                    text = classAttended,
                                     color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.6f)
                                 )
                             },
@@ -220,9 +224,9 @@ fun EditSubjectModal(
                         )
 
                         OutlinedTextField(
-                            value = totalClass.toString(),
+                            value = totalClass,
                             onValueChange = {
-                                totalClass = it.toIntOrNull() ?: 0
+                                totalClass = it.ifEmpty { "" }
                             },
                             label = {
                                 Text(
@@ -248,8 +252,11 @@ fun EditSubjectModal(
                         )
                     }
 
-                    if (totalClass > 0) {
-                        val percentage = (classAttended.toFloat() / totalClass.toFloat()) * 100
+                    val attended = classAttended.toFloatOrNull()
+                    val total = totalClass.toFloatOrNull()
+
+                    if (attended != null && total != null && total > 0) {
+                        val percentage = (attended / total) * 100
                         Text(
                             text = "Current Attendance: ${percentage.toInt()}%",
                             style = MaterialTheme.typography.bodyMedium,
@@ -294,8 +301,8 @@ fun EditSubjectModal(
                                 Subject(
                                     subjectCode = subjectCode,
                                     subjectName = subjectName,
-                                    classAttended = classAttended,
-                                    totalClasses = totalClass
+                                    classAttended = classAttended.toInt(),
+                                    totalClasses = totalClass.toInt()
                                 )
                             )
                             showEditSubjectModal = false
