@@ -127,7 +127,7 @@ fun AddSubjectModal(
                     )
                     Text(
                         text = "Add New Subject",
-                        style = MaterialTheme.typography.headlineMediumEmphasized,
+                        style = MaterialTheme.typography.headlineSmall,
                         color = MaterialTheme.colorScheme.primary,
                         fontWeight = FontWeight.Bold
                     )

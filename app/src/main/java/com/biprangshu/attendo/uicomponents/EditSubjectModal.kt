@@ -132,7 +132,7 @@ fun EditSubjectModal(
                     )
                     Text(
                         text = "Edit Subject",
-                        style = MaterialTheme.typography.headlineMediumEmphasized,
+                        style = MaterialTheme.typography.headlineSmall,
                         color = MaterialTheme.colorScheme.primary,
                         fontWeight = FontWeight.Bold
                     )

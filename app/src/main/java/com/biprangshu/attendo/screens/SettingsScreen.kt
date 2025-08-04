@@ -23,6 +23,7 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -36,11 +37,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.biprangshu.attendo.data.Subject
+import com.biprangshu.attendo.ui.theme.Appfonts.robotoFlexTopBar
 import com.biprangshu.attendo.utils.showSubjectAddModal
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
@@ -67,9 +71,12 @@ fun SettingsScreen(
 
             Text(
                 text = "Settings",
-                style = MaterialTheme.typography.displaySmall,
-                color = MaterialTheme.colorScheme.primary,
-                fontWeight = FontWeight.Bold,
+                style = TextStyle(
+                    fontFamily = robotoFlexTopBar,
+                    fontSize = 32.sp,
+                    lineHeight = 32.sp,
+                    color = colorScheme.primary
+                ),
                 textAlign = TextAlign.Center,
                 modifier = Modifier.fillMaxWidth()
             )

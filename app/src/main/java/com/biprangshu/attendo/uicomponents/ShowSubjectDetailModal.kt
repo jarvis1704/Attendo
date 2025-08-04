@@ -142,7 +142,7 @@ fun ShowSubjectDetailModal(
                     Column {
                         Text(
                             text = subject.subjectName,
-                            style = MaterialTheme.typography.headlineMediumEmphasized,
+                            style = MaterialTheme.typography.headlineSmall,
                             color = MaterialTheme.colorScheme.primary,
                             fontWeight = FontWeight.Bold
                         )

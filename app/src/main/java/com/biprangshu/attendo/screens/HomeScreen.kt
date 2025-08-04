@@ -22,6 +22,7 @@ import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialExpressiveTheme
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.SwipeToDismissBox
 import androidx.compose.material3.SwipeToDismissBoxValue
@@ -37,12 +38,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.biprangshu.attendo.Material3ExpressiveTest
 import com.biprangshu.attendo.data.Subject
 import com.biprangshu.attendo.repository.UserPreferencesRepository
+import com.biprangshu.attendo.ui.theme.Appfonts.robotoFlexTopBar
 import com.biprangshu.attendo.uicomponents.AddSubjectModal
 import com.biprangshu.attendo.uicomponents.EditSubjectModal
 import com.biprangshu.attendo.uicomponents.ShowSubjectDetailModal
@@ -93,8 +96,12 @@ fun HomeScreen(
             ) {
                 Text(
                     text = "Attendo",
-                    style = MaterialTheme.typography.displaySmall,
-                    color = MaterialTheme.colorScheme.primary
+                    style = TextStyle(
+                        fontFamily = robotoFlexTopBar,
+                        fontSize = 32.sp,
+                        lineHeight = 32.sp,
+                        color = colorScheme.primary
+                    ),
                 )
             }
 
