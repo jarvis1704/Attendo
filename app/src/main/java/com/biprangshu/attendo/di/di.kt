@@ -6,6 +6,7 @@ import androidx.room.driver.SupportSQLiteConnection
 import androidx.room.migration.Migration
 import androidx.sqlite.SQLiteConnection
 import androidx.sqlite.db.SupportSQLiteDatabase
+import com.biprangshu.attendo.data.AttendenceDao
 import com.biprangshu.attendo.data.AttendoDatabase
 import com.biprangshu.attendo.data.SubjectDao
 import dagger.Module
@@ -52,5 +53,10 @@ object DatabaseModule{
     @Provides
     fun provideSubjectDao(database: AttendoDatabase): SubjectDao{
         return database.subjectDao()
+    }
+
+    @Provides
+    fun provideAttdendenceDao(database: AttendoDatabase): AttendenceDao{
+        return database.attendenceDao()
     }
 }
