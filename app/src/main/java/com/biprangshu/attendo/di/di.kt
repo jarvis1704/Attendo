@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import com.biprangshu.attendo.data.AttendoDatabase
 import com.biprangshu.attendo.data.SubjectDao
+import com.biprangshu.attendo.repository.AttendanceFileManager
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -31,5 +32,11 @@ object DatabaseModule{
     @Provides
     fun provideSubjectDao(database: AttendoDatabase): SubjectDao{
         return database.subjectDao()
+    }
+
+    @Provides
+    @Singleton
+    fun provideAttendanceFileManager(@ApplicationContext context: Context): AttendanceFileManager {
+        return AttendanceFileManager(context)
     }
 }

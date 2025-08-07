@@ -3,6 +3,7 @@ package com.biprangshu.attendo.uicomponents
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -64,6 +65,7 @@ fun ShowSubjectDetailModal(
     modifier: Modifier = Modifier,
     subject: Subject,
     deleteSubject: (Subject)-> Unit,
+    onShowInCalendarClick: () -> Unit
 ) {
     val density = LocalDensity.current
     val requiredPercentage = 75f
@@ -220,7 +222,10 @@ fun ShowSubjectDetailModal(
                     horizontalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
                     Card(
-                        modifier = Modifier.weight(1f),
+                        modifier = Modifier.weight(1f).clickable{
+                            onShowInCalendarClick()
+                            hapticFeedback.performHapticFeedback(HapticFeedbackType.Confirm)
+                        },
                         shape = MaterialTheme.shapes.large,
                         colors = CardDefaults.cardColors(
                             containerColor = MaterialTheme.colorScheme.primaryContainer

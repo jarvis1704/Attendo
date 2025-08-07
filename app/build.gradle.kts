@@ -16,8 +16,8 @@ android {
         applicationId = "com.biprangshu.attendo"
         minSdk = 24
         targetSdk = 36
-        versionCode = 3
-        versionName = "1.5"
+        versionCode = 4
+        versionName = "2"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -35,6 +35,7 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
+        isCoreLibraryDesugaringEnabled = true
     }
     kotlinOptions {
         jvmTarget = "11"
@@ -45,6 +46,12 @@ android {
 }
 
 dependencies {
+
+    val composeBom = platform("androidx.compose:compose-bom:2024.05.00")
+    implementation(composeBom)
+    androidTestImplementation(composeBom)
+
+    implementation("androidx.compose.foundation:foundation")
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
@@ -100,5 +107,5 @@ dependencies {
     implementation("androidx.compose.material:material-icons-extended:1.7.8")
 
 
-
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.4")
 }

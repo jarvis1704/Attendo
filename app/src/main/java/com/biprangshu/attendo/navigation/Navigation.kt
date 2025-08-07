@@ -1,5 +1,7 @@
 package com.biprangshu.attendo.navigation
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -9,16 +11,20 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavHost
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
 import com.biprangshu.attendo.data.Subject
 import com.biprangshu.attendo.repository.UserPreferencesRepository
+import com.biprangshu.attendo.screens.CalendarScreen
 import com.biprangshu.attendo.screens.HomeScreen
 import com.biprangshu.attendo.screens.SettingsScreen
 import com.biprangshu.attendo.utils.requiredPercentage
 import com.biprangshu.attendo.utils.selectedScreen
 import com.biprangshu.attendo.viewmodel.MainViewModel
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun Navigation(
     modifier: Modifier = Modifier,
@@ -54,8 +60,8 @@ fun Navigation(
                 editSubject = {
                     subject ->
                     mainViewModel.updateSubject(subject)
-                }
-
+                },
+                navController = navController
 
             )
         }
@@ -70,6 +76,21 @@ fun Navigation(
                         percentage = percentage
                     )
                 }
+            )
+        }
+
+        composable(
+            route = NavScreenObject.CALENDAR_SCREEN,
+            arguments = listOf(
+                navArgument("subjectCode") { type = NavType.StringType },
+                navArgument("subjectName") { type = NavType.StringType }
+            )
+        ) { backStackEntry ->
+            val subjectCode = backStackEntry.arguments?.getString("subjectCode") ?: ""
+            val subjectName = backStackEntry.arguments?.getString("subjectName") ?: ""
+
+            CalendarScreen(
+                onNavigateBack = { navController.popBackStack() }
             )
         }
     }

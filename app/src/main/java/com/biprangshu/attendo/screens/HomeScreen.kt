@@ -42,8 +42,10 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import com.biprangshu.attendo.Material3ExpressiveTest
 import com.biprangshu.attendo.data.Subject
+import com.biprangshu.attendo.navigation.NavScreenObject
 import com.biprangshu.attendo.repository.UserPreferencesRepository
 import com.biprangshu.attendo.ui.theme.Appfonts.robotoFlexTopBar
 import com.biprangshu.attendo.uicomponents.AddSubjectModal
@@ -56,6 +58,7 @@ import com.biprangshu.attendo.utils.requiredPercentage
 import com.biprangshu.attendo.utils.selectedSubject
 import com.biprangshu.attendo.utils.selectedSubjectForEdit
 import com.biprangshu.attendo.utils.showSubjectDetail
+import com.biprangshu.attendo.utils.showSubjectDetailModal
 import kotlinx.coroutines.delay
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -71,7 +74,8 @@ fun HomeScreen(
     onClassPresent: (Subject) -> Unit,
     onClassAbsent: (Subject) -> Unit,
     deleteSubject: (Subject) -> Unit,
-    editSubject: (Subject) -> Unit
+    editSubject: (Subject) -> Unit,
+    navController: NavHostController
 ) {
     val overallAttendance by remember(subjects) {
         derivedStateOf {
@@ -209,7 +213,14 @@ fun HomeScreen(
             selectedSubject?.let {
                 ShowSubjectDetailModal(
                     subject = it,
-                    deleteSubject = deleteSubject
+                    deleteSubject = deleteSubject,
+                    onShowInCalendarClick = {
+                        navController.navigate(
+                            NavScreenObject.createCalendarRoute(subjectCode = it.subjectCode, subjectName = it.subjectName)
+                        )
+                        showSubjectDetailModal = false
+                        selectedSubject=null
+                    }
                 )
             }
 
