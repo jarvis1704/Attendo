@@ -31,6 +31,7 @@ import com.biprangshu.attendo.navigation.Navigation
 import com.biprangshu.attendo.screens.HomeScreen
 import com.biprangshu.attendo.ui.theme.AttendoTheme
 import com.biprangshu.attendo.uicomponents.BottomBar
+import com.biprangshu.attendo.uicomponents.DeleteAlert
 import com.biprangshu.attendo.uicomponents.Fab
 import com.biprangshu.attendo.uicomponents.FirstAlertDialog
 import com.biprangshu.attendo.viewmodel.MainViewModel
@@ -93,6 +94,12 @@ class MainActivity : ComponentActivity() {
                         }
                     }
                 ) { innerPadding ->
+                    DeleteAlert(
+                        deleteSubject = {
+                            subject ->
+                            mainViewModel.deleteSubject(subject)
+                        },
+                    )
                     Navigation(
                         navController = navController
                     )

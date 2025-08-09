@@ -25,3 +25,7 @@ fun editSubjectDetail(subject: Subject){
     selectedSubjectForEdit= subject
     showEditSubjectModal=true
 }
+
+var deleteAlert by mutableStateOf(false)
+
+var subjectToBeDeleted by mutableStateOf<Subject?>(null)

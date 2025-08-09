@@ -53,11 +53,14 @@ import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.biprangshu.attendo.data.Subject
+import com.biprangshu.attendo.utils.deleteAlert
 import com.biprangshu.attendo.utils.editSubjectDetail
 import com.biprangshu.attendo.utils.selectedSubject
 import com.biprangshu.attendo.utils.showSubjectAddModal
 import com.biprangshu.attendo.utils.showSubjectDetailModal
+import com.biprangshu.attendo.utils.subjectToBeDeleted
 import kotlin.math.ceil
+import kotlin.reflect.KClass
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
 @Composable
@@ -328,7 +331,9 @@ fun ShowSubjectDetailModal(
                 ) {
                     TextButton(
                         onClick = {
-                            deleteSubject(subject)
+//                            deleteSubject(subject)
+                            deleteAlert=true
+                            subjectToBeDeleted = subject
                             showSubjectDetailModal = false
                             selectedSubject=null
                             hapticFeedback.performHapticFeedback(HapticFeedbackType.Reject)
