@@ -9,4 +9,6 @@ object NavScreenObject {
     fun createCalendarRoute(subjectCode: String, subjectName: String): String {
         return "calendarscreen/$subjectCode/$subjectName"
     }
+
+    const val ONBOARDING_SCREEN = "onboardingscreen"
 }

@@ -1,9 +1,11 @@
 package com.biprangshu.attendo
 
+import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -29,6 +31,7 @@ import androidx.navigation.compose.rememberNavController
 import com.biprangshu.attendo.navigation.NavScreenObject
 import com.biprangshu.attendo.navigation.Navigation
 import com.biprangshu.attendo.screens.HomeScreen
+import com.biprangshu.attendo.screens.OnboardingScreen
 import com.biprangshu.attendo.ui.theme.AttendoTheme
 import com.biprangshu.attendo.uicomponents.BottomBar
 import com.biprangshu.attendo.uicomponents.DeleteAlert
@@ -39,6 +42,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+    @RequiresApi(Build.VERSION_CODES.O)
     @OptIn(ExperimentalMaterial3ExpressiveApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

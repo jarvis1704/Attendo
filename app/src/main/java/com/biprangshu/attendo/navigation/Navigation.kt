@@ -19,9 +19,11 @@ import com.biprangshu.attendo.data.Subject
 import com.biprangshu.attendo.repository.UserPreferencesRepository
 import com.biprangshu.attendo.screens.CalendarScreen
 import com.biprangshu.attendo.screens.HomeScreen
+import com.biprangshu.attendo.screens.OnboardingScreen
 import com.biprangshu.attendo.screens.SettingsScreen
 import com.biprangshu.attendo.utils.requiredPercentage
 import com.biprangshu.attendo.utils.selectedScreen
+import com.biprangshu.attendo.utils.showOnboardingPages
 import com.biprangshu.attendo.viewmodel.MainViewModel
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -31,12 +33,11 @@ fun Navigation(
     navController: NavHostController,
     mainViewModel: MainViewModel = hiltViewModel()
 ) {
-
     val subjectList by mainViewModel.allSubjects.collectAsState(initial = emptyList())
 
     NavHost(
         navController = navController,
-        startDestination = NavScreenObject.HOMESCREEN
+        startDestination = if(showOnboardingPages) NavScreenObject.ONBOARDING_SCREEN else NavScreenObject.HOMESCREEN
     ){
         composable(NavScreenObject.HOMESCREEN) {
             selectedScreen = NavScreenObject.HOMESCREEN
@@ -92,6 +93,15 @@ fun Navigation(
             CalendarScreen(
                 onNavigateBack = { navController.popBackStack() }
             )
+        }
+
+        composable(
+            route = NavScreenObject.ONBOARDING_SCREEN
+        ) {
+            OnboardingScreen {
+                navController.navigate(NavScreenObject.HOMESCREEN)
+                mainViewModel.showFirstDialog()
+            }
         }
     }
 

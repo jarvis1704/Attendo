@@ -13,6 +13,7 @@ import com.biprangshu.attendo.repository.DatabaseRepository
 import com.biprangshu.attendo.repository.UserPreferencesRepository
 import com.biprangshu.attendo.utils.requiredPercentage
 import com.biprangshu.attendo.utils.showFirstOpenAlert
+import com.biprangshu.attendo.utils.showOnboardingPages
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
@@ -30,7 +31,7 @@ class MainViewModel @Inject constructor(
 ): AndroidViewModel(application) {
 
     init {
-        showFirstDialog()
+        showOnboarding()
         updateRequiredPercentage()
     }
 
@@ -91,7 +92,17 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    fun showFirstDialog() {
+    fun showOnboarding() {
+        viewModelScope.launch {
+            showOnboardingPages = if(userPreferencesRepository.isFirstAppOpen.first()){
+                true
+            } else {
+                false
+            }
+        }
+    }
+
+    fun showFirstDialog(){
         viewModelScope.launch {
             showFirstOpenAlert = if(userPreferencesRepository.isFirstAppOpen.first()){
                 true
@@ -100,6 +111,8 @@ class MainViewModel @Inject constructor(
             }
         }
     }
+
+
 
     fun updateRequiredPercentage(percentage: Float) {
         viewModelScope.launch {
