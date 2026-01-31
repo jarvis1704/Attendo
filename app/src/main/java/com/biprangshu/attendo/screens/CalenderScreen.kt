@@ -25,6 +25,7 @@ import androidx.compose.material.icons.filled.ChevronRight
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FilledTonalIconButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -77,7 +78,7 @@ fun CalendarScreen(
             TopAppBar(
                 title = { Text(text = viewModel.subjectName, style = MaterialTheme.typography.headlineSmall, color= MaterialTheme.colorScheme.primary) },
                 navigationIcon = {
-                    IconButton(onClick = {
+                    FilledTonalIconButton(onClick = {
                         onNavigateBack()
                         hapticFeedback.performHapticFeedback(HapticFeedbackType.Confirm)
                     }) {
