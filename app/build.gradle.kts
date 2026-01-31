@@ -6,6 +6,7 @@ plugins {
     id("org.jetbrains.kotlin.plugin.serialization")
     id("kotlin-parcelize")
     id("com.google.dagger.hilt.android")
+    alias(libs.plugins.baselineprofile)
 }
 
 android {
@@ -108,4 +109,7 @@ dependencies {
 
 
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.4")
+    
+    implementation(libs.androidx.profileinstaller)
+    "baselineProfile"(project(":baselineprofile"))
 }

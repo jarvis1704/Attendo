@@ -21,4 +21,5 @@ dependencyResolutionManagement {
 
 rootProject.name = "Attendo"
 include(":app")
+include(":baselineprofile")
  
