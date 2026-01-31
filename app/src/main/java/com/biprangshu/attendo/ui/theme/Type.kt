@@ -22,7 +22,7 @@ val Typography = Typography(
         letterSpacing = 0.5.sp
     ),
     headlineSmall = TextStyle(
-        fontFamily = robotoFlexHeadline,
+        fontFamily = robotoFlexTitle,
         fontSize = 24.sp,
         lineHeight = 32.sp,
         letterSpacing = 0.sp,
