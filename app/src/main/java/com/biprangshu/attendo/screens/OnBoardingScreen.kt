@@ -2,21 +2,32 @@ package com.biprangshu.attendo.screens
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.SizeTransform
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.EaseInOutCubic
+import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.animation.scaleIn
-import androidx.compose.animation.scaleOut
-import androidx.compose.animation.slideInHorizontally
-import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.animation.togetherWith
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
@@ -25,30 +36,42 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.CalendarToday
-import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.School
 import androidx.compose.material.icons.filled.Swipe
 import androidx.compose.material.icons.filled.TrendingUp
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.LinearProgressIndicator
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.hapticfeedback.HapticFeedbackType
-import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.util.lerp
 import com.biprangshu.attendo.ui.theme.Appfonts.robotoFlexTopBar
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-
+import kotlin.math.absoluteValue
 
 data class OnboardingPage(
     val title: String,
@@ -56,16 +79,12 @@ data class OnboardingPage(
     val icon: ImageVector,
 )
 
-@OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun OnboardingScreen(
     modifier: Modifier = Modifier,
     onGetStarted: () -> Unit
 ) {
-
-    val hapticFeedback = LocalHapticFeedback.current
     val scope = rememberCoroutineScope()
-
 
     val pages = remember {
         listOf(
@@ -97,123 +116,213 @@ fun OnboardingScreen(
         )
     }
 
+    val colour1 = MaterialTheme.colorScheme.primary.copy(alpha = 0.1f)
+    val colour2 = MaterialTheme.colorScheme.primary.copy(alpha = 0.2f)
+
     val pagerState = rememberPagerState(pageCount = { pages.size })
 
-
-    val primaryColor by animateColorAsState(
-        targetValue = MaterialTheme.colorScheme.primary.copy(alpha = 0.6f + (pagerState.currentPage * 0.1f)),
-        animationSpec = tween(durationMillis = 1000), label = "primaryColor"
-    )
-    val secondaryColor by animateColorAsState(
-        targetValue = MaterialTheme.colorScheme.secondary.copy(alpha = 0.6f + (pagerState.currentPage * 0.1f)),
-        animationSpec = tween(durationMillis = 1000), label = "secondaryColor"
-    )
-    val tertiaryColor by animateColorAsState(
-        targetValue = MaterialTheme.colorScheme.tertiary.copy(alpha = 0.6f + (pagerState.currentPage * 0.1f)),
-        animationSpec = tween(durationMillis = 1000), label = "tertiaryColor"
-    )
-
-    Surface(
-        modifier = modifier.fillMaxSize(),
-        color = MaterialTheme.colorScheme.surface
-    ) {
-        Box(
+    Scaffold(
+        containerColor = MaterialTheme.colorScheme.surface,
+        modifier = modifier
+    ) { innerPadding ->
+        Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(
-                    Brush.verticalGradient(
-                        colors = listOf(primaryColor, secondaryColor, tertiaryColor)
-                    )
-                )
+                .padding(innerPadding)
+                .padding(24.dp)
         ) {
-            Column(
+
+
+            Box(modifier = Modifier.weight(0.3f)) {
+                Column(
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Spacer(modifier = Modifier.height(32.dp))
+
+                    AnimatedContent(
+                        targetState = pages[pagerState.currentPage].title,
+                        transitionSpec = {
+                            if (targetState != initialState) {
+                                slideInVertically { height -> height } + fadeIn() togetherWith
+                                        slideOutVertically { height -> -height } + fadeOut()
+                            } else {
+                                fadeIn() togetherWith fadeOut()
+                            }.using(
+                                SizeTransform(clip = false)
+                            )
+                        },
+                        label = "Title Animation"
+                    ) { title ->
+                        Text(
+                            text = title,
+                            style = MaterialTheme.typography.displaySmall.copy(
+                                fontWeight = FontWeight.Bold,
+                                fontFamily = robotoFlexTopBar
+                            ),
+                            color = MaterialTheme.colorScheme.primary,
+                            modifier = Modifier.fillMaxWidth(),
+                            textAlign = TextAlign.Start
+                        )
+                    }
+
+                    Spacer(modifier = Modifier.height(16.dp))
+
+                    AnimatedContent(
+                        targetState = pages[pagerState.currentPage].description,
+                        transitionSpec = {
+                            if (targetState != initialState) {
+                                slideInVertically { height -> height / 2 } + fadeIn() togetherWith
+                                        slideOutVertically { height -> -height / 2 } + fadeOut()
+                            } else {
+                                fadeIn() togetherWith fadeOut()
+                            }.using(
+                                SizeTransform(clip = false)
+                            )
+                        },
+                        label = "Desc Animation"
+                    ) { desc ->
+                        Text(
+                            text = desc,
+                            style = MaterialTheme.typography.bodyLarge,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            modifier = Modifier.fillMaxWidth(),
+                            textAlign = TextAlign.Start
+                        )
+                    }
+                }
+            }
+
+
+            HorizontalPager(
+                state = pagerState,
                 modifier = Modifier
-                    .fillMaxSize()
-                    .statusBarsPadding()
-                    .padding(16.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
+                    .weight(0.5f)
+                    .fillMaxWidth()
+            ) { pageIndex ->
+                val pageOffset = (
+                        (pagerState.currentPage - pageIndex) + pagerState.currentPageOffsetFraction
+                        ).absoluteValue
+
+                val page = pages[pageIndex]
 
                 Box(
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 8.dp, vertical = 16.dp)
+                        .fillMaxSize()
+                        .graphicsLayer {
+                            val scale = lerp(1f, 0.85f, pageOffset.coerceIn(0f, 1f))
+                            scaleX = scale
+                            scaleY = scale
+                            alpha = lerp(1f, 0.5f, pageOffset.coerceIn(0f, 1f))
+                        },
+                    contentAlignment = Alignment.Center
                 ) {
-                    if (pagerState.currentPage < pages.size - 1) {
-                        TextButton(
-                            onClick = {
-                                hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
-                                onGetStarted()
-                            },
-                            modifier = Modifier.align(Alignment.CenterEnd)
-                        ) {
-                            Text("Skip", color = MaterialTheme.colorScheme.onPrimary)
+
+                    when (page.icon) {
+                        Icons.Default.Swipe -> SwipeAttendanceDemoCard()
+                        Icons.Default.TrendingUp -> AttendanceProgressDemo()
+                        else -> {
+                            Box(
+                                modifier = Modifier
+                                    .size(180.dp)
+                                    .drawBehind {
+                                        drawCircle(
+                                            color = colour1,
+                                            radius = size.width / 2 * 0.9f
+                                        )
+                                        drawCircle(
+                                            color = colour2,
+                                            radius = size.width / 2 * 0.7f
+                                        )
+                                    },
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Icon(
+                                    imageVector = page.icon,
+                                    contentDescription = null,
+                                    modifier = Modifier.size(80.dp),
+                                    tint = MaterialTheme.colorScheme.primary
+                                )
+                            }
                         }
                     }
                 }
+            }
 
 
-                HorizontalPager(
-                    state = pagerState,
-                    modifier = Modifier.weight(1f),
-                    contentPadding = PaddingValues(horizontal = 24.dp)
-                ) { page ->
-                    OnboardingPageContent(
-                        page = pages[page],
-                        isCurrentPage = page == pagerState.currentPage
-                    )
-                }
-
+            Row(
+                modifier = Modifier
+                    .weight(0.2f)
+                    .fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
 
                 Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(bottom = 32.dp, top = 16.dp),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
-                    PageIndicator(
-                        pageCount = pages.size,
-                        currentPage = pagerState.currentPage,
-                    )
+                    repeat(pages.size) { iteration ->
+                        val isSelected = pagerState.currentPage == iteration
 
+                        val width by animateDpAsState(
+                            targetValue = if (isSelected) 32.dp else 12.dp,
+                            animationSpec = spring(stiffness = Spring.StiffnessMedium),
+                            label = "Indicator Width"
+                        )
+                        val color by animateColorAsState(
+                            targetValue = if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.primaryContainer,
+                            animationSpec = spring(stiffness = Spring.StiffnessMedium),
+                            label = "Indicator Color"
+                        )
 
-                    ExtendedFloatingActionButton(
-                        onClick = {
-                            hapticFeedback.performHapticFeedback(HapticFeedbackType.Confirm)
-                            if (pagerState.currentPage == pages.size - 1) {
-                                onGetStarted()
-                            } else {
-                                scope.launch {
-                                    pagerState.animateScrollToPage(pagerState.currentPage + 1)
-                                }
+                        Box(
+                            modifier = Modifier
+                                .height(12.dp)
+                                .width(width)
+                                .clip(CircleShape)
+                                .background(color)
+                        )
+                    }
+                }
+
+                val isLastPage = pagerState.currentPage == pages.size - 1
+
+                Button(
+                    onClick = {
+                        if (isLastPage) {
+                            onGetStarted()
+                        } else {
+                            scope.launch {
+                                pagerState.animateScrollToPage(
+                                    pagerState.currentPage + 1,
+                                    animationSpec = spring(stiffness = Spring.StiffnessMedium)
+                                )
                             }
-                        },
+                        }
+                    },
+                    modifier = Modifier.height(62.dp),
+                    shape = CircleShape,
+                    colors = ButtonDefaults.buttonColors(
                         containerColor = MaterialTheme.colorScheme.primary,
-                        contentColor = MaterialTheme.colorScheme.onPrimary,
-                        shape = RoundedCornerShape(50.dp)
-                    ) {
-                        AnimatedContent(
-                            targetState = pagerState.currentPage == pages.size - 1,
-                            transitionSpec = {
-                                fadeIn(animationSpec = tween(220, delayMillis = 90)) +
-                                        scaleIn(initialScale = 0.92f, animationSpec = tween(220, delayMillis = 90)) togetherWith
-                                        fadeOut(animationSpec = tween(90)) + scaleOut(targetScale = 0.92f, animationSpec = tween(90))
-                            }, label = "fabContent"
-                        ) { isLastPage ->
-                            if (isLastPage) {
-                                Row(verticalAlignment = Alignment.CenterVertically) {
-                                    Text("Get Started")
-                                    Spacer(Modifier.width(8.dp))
-                                    Icon(Icons.Default.Check, contentDescription = "Get Started")
-                                }
-                            } else {
-                                Row(verticalAlignment = Alignment.CenterVertically) {
-                                    Text("Next")
-                                    Spacer(Modifier.width(8.dp))
-                                    Icon(Icons.AutoMirrored.Filled.ArrowForward, contentDescription = "Next")
-                                }
-                            }
+                        contentColor = MaterialTheme.colorScheme.onPrimary
+                    )
+                ) {
+                    AnimatedVisibility(visible = !isLastPage) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.ArrowForward,
+                            contentDescription = "Next"
+                        )
+                    }
+                    AnimatedVisibility(visible = isLastPage) {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Text(
+                                text = "Get Started",
+                                style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold)
+                            )
+                            Spacer(modifier = Modifier.width(8.dp))
+                            Icon(
+                                imageVector = Icons.AutoMirrored.Filled.ArrowForward,
+                                contentDescription = null
+                            )
                         }
                     }
                 }
@@ -221,112 +330,10 @@ fun OnboardingScreen(
         }
     }
 }
-
-@Composable
-private fun OnboardingPageContent(
-    page: OnboardingPage,
-    isCurrentPage: Boolean,
-    modifier: Modifier = Modifier
-) {
-
-    val contentAlpha by animateFloatAsState(
-        targetValue = if (isCurrentPage) 1f else 0f,
-        animationSpec = tween(durationMillis = 500, delayMillis = 300),
-        label = "contentAlpha"
-    )
-    val iconScale by animateFloatAsState(
-        targetValue = if (isCurrentPage) 1f else 0.8f,
-        animationSpec = tween(durationMillis = 800, easing = EaseInOutCubic),
-        label = "iconScale"
-    )
-
-    Column(
-        modifier = modifier
-            .fillMaxSize()
-            .graphicsLayer { alpha = contentAlpha },
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-    ) {
-
-        Box(
-            modifier = Modifier
-                .size(180.dp)
-                .graphicsLayer { scaleX = iconScale; scaleY = iconScale }
-                .drawBehind {
-                    drawCircle(
-                        color = Color.White.copy(alpha = 0.1f),
-                        radius = size.width / 2 * 0.9f
-                    )
-                    drawCircle(
-                        color = Color.White.copy(alpha = 0.2f),
-                        radius = size.width / 2 * 0.7f
-                    )
-                },
-            contentAlignment = Alignment.Center
-        ) {
-            Icon(
-                imageVector = page.icon,
-                contentDescription = null,
-                modifier = Modifier.size(64.dp),
-                tint = MaterialTheme.colorScheme.onPrimary
-            )
-        }
-
-        Spacer(modifier = Modifier.height(56.dp))
-
-
-        AnimatedContent(
-            targetState = page,
-            transitionSpec = {
-                (slideInHorizontally { width -> width } + fadeIn()).togetherWith(slideOutHorizontally { width -> -width } + fadeOut())
-            }, label = "textContent"
-        ) { targetPage ->
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(16.dp)
-            ) {
-                Text(
-                    text = targetPage.title,
-                    style = MaterialTheme.typography.headlineSmall,
-                    fontFamily = robotoFlexTopBar,
-                    fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.onPrimary,
-                    textAlign = TextAlign.Center
-                )
-                Text(
-                    text = targetPage.description,
-                    style = MaterialTheme.typography.titleMedium,
-                    fontSize = 16.sp,
-                    color = MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.9f),
-                    textAlign = TextAlign.Center,
-                    lineHeight = MaterialTheme.typography.bodyLarge.lineHeight * 1.5
-                )
-            }
-        }
-
-        Spacer(modifier = Modifier.height(32.dp))
-
-
-        AnimatedVisibility(
-            visible = isCurrentPage,
-            enter = fadeIn(animationSpec = tween(delayMillis = 600)),
-            exit = fadeOut()
-        ) {
-            Box(modifier = Modifier.height(120.dp), contentAlignment = Alignment.Center) {
-                when (page.icon) {
-                    Icons.Default.Swipe -> SwipeAttendanceDemoCard()
-                    Icons.Default.TrendingUp -> AttendanceProgressDemo()
-                }
-            }
-        }
-    }
-}
-
 
 @Composable
 private fun SwipeAttendanceDemoCard(modifier: Modifier = Modifier) {
-    var swipeState by remember { mutableIntStateOf(0) } // 0: neutral, 1: right (absent), -1: left (present)
-
+    var swipeState by remember { mutableIntStateOf(0) }
 
     LaunchedEffect(Unit) {
         while (true) {
@@ -462,39 +469,6 @@ private fun AttendanceProgressDemo(modifier: Modifier = Modifier) {
                 },
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
-            )
-        }
-    }
-}
-
-
-@Composable
-private fun PageIndicator(
-    pageCount: Int,
-    currentPage: Int,
-    modifier: Modifier = Modifier
-) {
-    Row(
-        modifier = modifier,
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        repeat(pageCount) { page ->
-            val isSelected = page == currentPage
-            val width by animateFloatAsState(
-                targetValue = if (isSelected) 32f else 8f,
-                animationSpec = tween(durationMillis = 400, easing = EaseInOutCubic),
-                label = "indicatorWidth"
-            )
-
-            Box(
-                modifier = Modifier
-                    .size(width = width.dp, height = 8.dp)
-                    .clip(CircleShape)
-                    .background(
-                        color = if (isSelected) MaterialTheme.colorScheme.onPrimary
-                        else MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.4f)
-                    )
             )
         }
     }
