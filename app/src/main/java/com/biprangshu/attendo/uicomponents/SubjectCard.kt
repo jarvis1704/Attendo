@@ -65,6 +65,7 @@ fun SubjectCard(
         targetValue = when {
             currentPercentage >= requiredPercentage -> Color(0xFF2E7D32)
             currentPercentage >= requiredPercentage - 10 -> Color(0xFFF9A825)
+            currentPercentage == 0f -> MaterialTheme.colorScheme.onSurfaceVariant
             else -> MaterialTheme.colorScheme.error
         },
         animationSpec = tween(500), label = "statusColorAnimation"
@@ -78,6 +79,9 @@ fun SubjectCard(
             else if (skippableClasses == 1) "You can bunk the next $skippableClasses class."
             else "On track! Don't bunk the next class."
         }
+
+        currentPercentage == 0f -> "Classes haven't started yet"
+
         else -> {
             val needed = ceil((requiredPercentage * classTotal - 100 * classAttended) / (100 - requiredPercentage))
             if(needed > 0) "Attend the next ${needed.toInt()} classes" else "Attendance is low"
