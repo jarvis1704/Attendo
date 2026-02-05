@@ -77,6 +77,7 @@ fun ShowSubjectDetailModal(
         targetValue = when {
             subject.currentPercentage >= requiredPercentage -> Color(0xFF2E7D32)
             subject.currentPercentage >= requiredPercentage - 10 -> Color(0xFFF9A825)
+            subject.currentPercentage == 0f -> MaterialTheme.colorScheme.onSurfaceVariant
             else -> MaterialTheme.colorScheme.error
         },
         animationSpec = tween(500), label = "statusColorAnimation"
@@ -97,6 +98,7 @@ fun ShowSubjectDetailModal(
 
     val message = when {
         subject.currentPercentage >= requiredPercentage -> "Excellent attendance!"
+        subject.currentPercentage == 0f -> "Classes haven't started yet"
         else -> {
             val needed = ceil((requiredPercentage * subject.totalClasses - 100 * subject.classAttended) / (100 - requiredPercentage))
             if(needed > 0) "Attend next ${needed.toInt()} classes to reach 75%" else "Low attendance"
