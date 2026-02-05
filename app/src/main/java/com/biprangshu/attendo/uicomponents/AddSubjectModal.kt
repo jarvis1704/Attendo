@@ -54,8 +54,8 @@ fun AddSubjectModal(
 ) {
     var subject by remember { mutableStateOf("") }
     var subjectCode by remember { mutableStateOf("") }
-    var classAttended by remember { mutableIntStateOf(0) }
-    var totalClass by remember { mutableIntStateOf(0) }
+    var classAttended by remember { mutableStateOf("") }
+    var totalClass by remember { mutableStateOf("") }
     val hapticFeedback = LocalHapticFeedback.current
 
     var animationProgress by remember { mutableFloatStateOf(0f) }
@@ -74,11 +74,14 @@ fun AddSubjectModal(
         animationProgress = if (showSubjectAddModal) 1f else 0f
     }
 
+    val classAttendedInt = classAttended.toIntOrNull() ?: 0
+    val totalClassInt = totalClass.toIntOrNull() ?: 0
+
     val isFormValid = subject.isNotBlank() &&
             subjectCode.isNotBlank() &&
-            totalClass > 0 &&
-            classAttended >= 0 &&
-            classAttended <= totalClass
+            totalClassInt >= 0 &&
+            classAttendedInt >= 0 &&
+            classAttendedInt <= totalClassInt
 
     if (showSubjectAddModal) {
         ModalBottomSheet(
@@ -191,9 +194,11 @@ fun AddSubjectModal(
                         modifier = Modifier.fillMaxWidth()
                     ) {
                         OutlinedTextField(
-                            value = if (classAttended == 0) "" else classAttended.toString(),
+                            value = classAttended,
                             onValueChange = {
-                                classAttended = it.toIntOrNull() ?: 0
+                                if (it.all { char -> char.isDigit() }) {
+                                    classAttended = it
+                                }
                             },
                             label = {
                                 Text(
@@ -219,9 +224,11 @@ fun AddSubjectModal(
                         )
 
                         OutlinedTextField(
-                            value = if (totalClass == 0) "" else totalClass.toString(),
+                            value = totalClass,
                             onValueChange = {
-                                totalClass = it.toIntOrNull() ?: 0
+                                if (it.all { char -> char.isDigit() }) {
+                                    totalClass = it
+                                }
                             },
                             label = {
                                 Text(
@@ -247,8 +254,8 @@ fun AddSubjectModal(
                         )
                     }
 
-                    if (totalClass > 0) {
-                        val percentage = (classAttended.toFloat() / totalClass.toFloat()) * 100
+                    if (totalClassInt > 0) {
+                        val percentage = (classAttendedInt.toFloat() / totalClassInt.toFloat()) * 100
                         Text(
                             text = "Current Attendance: ${percentage.toInt()}%",
                             style = MaterialTheme.typography.bodyMedium,
@@ -273,8 +280,8 @@ fun AddSubjectModal(
                         onClick = {
                             subject = ""
                             subjectCode = ""
-                            classAttended = 0
-                            totalClass = 0
+                            classAttended = ""
+                            totalClass = ""
                             showSubjectAddModal = false
                             hapticFeedback.performHapticFeedback(HapticFeedbackType.Reject)
                         },
@@ -296,14 +303,14 @@ fun AddSubjectModal(
                                 Subject(
                                     subjectCode = subjectCode,
                                     subjectName = subject,
-                                    classAttended = classAttended,
-                                    totalClasses = totalClass,
+                                    classAttended = classAttendedInt,
+                                    totalClasses = totalClassInt,
                                 )
                             )
                             subject = ""
                             subjectCode = ""
-                            classAttended = 0
-                            totalClass = 0
+                            classAttended = ""
+                            totalClass = ""
                             showSubjectAddModal = false
                             hapticFeedback.performHapticFeedback(HapticFeedbackType.Confirm)
                         },
